@@ -2,13 +2,21 @@
 
 Welcome to the pilot tech challenge from the Advanced Analytics SO - rolling your own digit recognizer!
 
-This goal of this tech challenge is for the learner to practice:
+## Intro
+The goal of this tech challenge is for the learner to practice:
  * Multi-class classification techniques
  * Computer vision fundamentals and simple neural networks
  * Delivering reproducible model-building projects
 
-Project Organization
-------------
+You'll accomplish these goals by developing a model that can classify examples from the MNIST handwriting dataset, one of the standard "hello world" datasets for computer vision and neural networks. 
+
+## Data
+You will train your model with data from Kaggle. Once you've made your own copy of this assignment, navigate to the [Kaggle Digit Recognizer](https://www.kaggle.com/c/digit-recognizer/data) challenge, download `train.csv`, and store it in your local copy of the project. You do **not** need to use the `test.csv` provided on the Kaggle challenge; we will use a separate dataset for evaluation. Do not upload data to GitHub.
+
+
+## Project Organization
+For this pilot, we've provided you a modified version of the [cookiecutter data science project template](https://drivendata.github.io/cookiecutter-data-science/), which proposes the project structure that appears below. While you are welcome to modify the repository to your liking, we strongly encourage you to follow this template (see coookiecutter's discussion of "why you should use this project structure").
+
 
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
