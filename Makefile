@@ -23,9 +23,14 @@ requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 
-## Download data from Kaggle's "Digit Recognizer" competition
-data: requirements data/external/train data/external/test
-	kaggle competitions download -c digit-recognizer -p data/external --force
+train: requirements
+	kaggle competitions download -c digit-recognizer -f train.csv -p data/external --force
+
+test: requirements
+	kaggle competitions download -c digit-recognizer -f test.csv -p data/external  --force
+
+features: train test
+	$(PYTHON_INTERPRETER) build_features.py
 
 ## Delete all compiled Python files
 clean:
