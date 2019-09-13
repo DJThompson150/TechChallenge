@@ -24,8 +24,8 @@ requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 
 ## Make Dataset
-data: requirements
-	kaggle competitions doownload -f -c digit-recognizer -p data/external
+data: # requirements
+	kaggle competitions download -c digit-recognizer -p data/external --force
 
 ## Delete all compiled Python files
 clean:
