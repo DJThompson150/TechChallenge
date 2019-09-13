@@ -1,6 +1,8 @@
-# aaml-tc01-mnist
+# AA/ML Tech Challenge: MNIST Digit Recognizer
 
 Welcome to the pilot tech challenge from the Advanced Analytics SO - rolling your own digit recognizer!
+
+**Before proceeding, please make sure you have enrolled in this assignment on GitHub Classrooms by following [this link](https://classroom.github.com/a/sFqE7KqF).** 
 
 ## Intro
 The goal of this tech challenge is for the learner to practice:
@@ -10,9 +12,41 @@ The goal of this tech challenge is for the learner to practice:
 
 You'll accomplish these goals by developing a model that can classify examples from the MNIST handwriting dataset, one of the standard "hello world" datasets for computer vision and neural networks. 
 
-## Data
-You will train your model with data from Kaggle. Once you've made your own copy of this assignment, navigate to the [Kaggle Digit Recognizer](https://www.kaggle.com/c/digit-recognizer/data) challenge, download `train.csv`, and store it in your local copy of the project. You do **not** need to use the `test.csv` provided on the Kaggle challenge; we will use a separate dataset for evaluation. Do not upload data to GitHub.
+## Prerequisites
+[TODO]
+ * A local installation of Python (≥3.6). Anaconda distributions will work fine.
+ * An account on [Kaggle](https://www.kaggle.com)
+ * Some terminal to run CLI tools (Mac users are good; Windows may use Git Bash or PowerShell)
 
+## Getting Started
+
+Beyond creating your own repository, you'll have to do a few other setup tasks before getting to the fun part of the assignment.
+
+### Create a Kaggle API Key
+
+Follow Kaggle's [instructions](https://github.com/Kaggle/kaggle-api#api-credentials) for creating and downloading API credentials.
+
+### Downloading data
+
+You will train your model with data from Kaggle's [Digit Recognizer competition](https://www.kaggle.com/c/digit-recognizer/data). 
+
+To initialize your project, you will _not_ be downloading the data from your browser. Rather, fire up your favorite terminal, navigate to the root of this project, and run the following command: 
+
+```PowerShell
+make data
+```
+
+This will download two files, `train.csv` and `test.csv`, into the `data/external` directory of this project.
+
+## Deliverables
+
+### Evaluation
+[TODO]: explore having assignees score against Kaggle's `test.csv` and providing a script that submits 
+those predictions via CLI for eval
+
+[TODO]: how does GH classrooms let assignees notify us that they're "done"?
+
+Your submission will be evaluated on its categorization accuracy when predicting labels in a holdout dataset. There is no pass/fail threshold, but your accuracy should be able to reach the high 90's just by using the popular kernels available on Kaggle as examples.
 
 ## Project Organization
 For this pilot, we've provided you a modified version of the [cookiecutter data science project template](https://drivendata.github.io/cookiecutter-data-science/), which proposes the project structure that appears below. While you are welcome to modify the repository to your liking, we strongly encourage you to follow this template (see coookiecutter's discussion of "why you should use this project structure").
