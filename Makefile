@@ -23,8 +23,8 @@ requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 
-## Make Dataset
-data: # requirements
+## Download data from Kaggle's "Digit Recognizer" competition
+data: requirements data/external/train data/external/test
 	kaggle competitions download -c digit-recognizer -p data/external --force
 
 ## Delete all compiled Python files
