@@ -1,3 +1,4 @@
+
 .PHONY: clean data lint requirements
 
 #################################################################################
@@ -22,15 +23,6 @@ endif
 requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
-
-train: requirements
-	kaggle competitions download -c digit-recognizer -f train.csv -p data/external --force
-
-test: requirements
-	kaggle competitions download -c digit-recognizer -f test.csv -p data/external  --force
-
-features: train test
-	$(PYTHON_INTERPRETER) build_features.py
 
 ## Delete all compiled Python files
 clean:
@@ -67,7 +59,25 @@ test_environment:
 # PROJECT RULES                                                                 #
 #################################################################################
 
+train: requirements
+	kaggle competitions download -c digit-recognizer -f train.csv -p data/external --force
 
+test: requirements
+	kaggle competitions download -c digit-recognizer -f test.csv -p data/external  --force
+
+features: train test
+	$(PYTHON_INTERPRETER) src/features/build_features.py
+
+model: features
+	$(PYTHON_INTERPRETER) src/models/train_model.py
+
+predict: model
+	$(PYTHON_INTERPRETER) src/models/predict_model.py
+
+submit: predict
+	kaggle competitions submit digit-recognizer -f data/processed/submission.csv -m "Automated submission"
+	echo "All submissions:"
+	kaggle competitions submissions digit-recognizer
 
 #################################################################################
 # Self Documenting Commands                                                     #
