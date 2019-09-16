@@ -65,13 +65,13 @@ train: requirements
 test: requirements
 	kaggle competitions download -c digit-recognizer -f test.csv -p data/external  --force
 
-features: train test
+features: train
 	$(PYTHON_INTERPRETER) src/features/build_features.py
 
 model: features
 	$(PYTHON_INTERPRETER) src/models/train_model.py
 
-predict: model
+predict: model test
 	$(PYTHON_INTERPRETER) src/models/predict_model.py
 
 submit: predict
