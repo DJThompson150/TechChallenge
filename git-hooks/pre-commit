@@ -1,0 +1,12 @@
+#!/bin/sh
+# prevent commit to local master branch
+
+echo "starting pre-commit"
+
+branch=`git symbolic-ref HEAD`
+if [ "$branch" = "refs/heads/master" ]; then
+    echo "Cannot commit to the local master branch during this challenge.  Please do your work on an alternate branch."
+    exit 1
+fi
+
+exit 0
