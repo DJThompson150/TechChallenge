@@ -7,6 +7,7 @@ git pull upstream master
 
 # create and checkout new branch for student to work on 
 git checkout -b develop
+git pull --allow-unrelated-histories
 
 # protect against master commits
 chmod +x githooks/pre-commit
