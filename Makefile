@@ -92,7 +92,7 @@ src/data/external/train.csv: ~/.kaggle/kaggle.json
 src/data/external/test.csv: ~/.kaggle/kaggle.json
 	kaggle competitions download -c digit-recognizer -f test.csv -p src/data/external --force
 
-src/models/model.h5: train
+models/model.h5: train
 
 src/data/processed/submission.csv: predict
 
