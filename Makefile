@@ -22,7 +22,7 @@ endif
 ## Install Python Dependencies
 requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
-	$(PYTHON_INTERPRETER) -m pip -q install -r requirements.txt
+	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 
 ## Make Dataset
 data: src/data/external/train.csv src/data/external/test.csv
@@ -66,19 +66,13 @@ git:
 # PROJECT RULES                                                                 #
 #################################################################################
 
-src/data/external/train.csv: ~/.kaggle/kaggle.json
-	kaggle competitions download -c digit-recognizer -f train.csv -p src/data/external --force
-
-src/data/external/test.csv: ~/.kaggle/kaggle.json
-	kaggle competitions download -c digit-recognizer -f test.csv -p src/data/external --force
-
-features: src/data/external/train.csv src/data/external/test.csv:
+features: src/data/external/train.csv src/data/external/test.csv requirements
 	$(PYTHON_INTERPRETER) src/features/build_features.py
 
-train: src/data/processed/X_train.npy src/data/processed/y_train.npy 
+train: src/data/processed/X_train.npy src/data/processed/y_train.npy requirements
 	$(PYTHON_INTERPRETER) src/models/train_model.py
 
-predict: src/models/model.h5 src/data/external/test.csv
+predict: models/model.h5 src/data/external/test.csv requirements
 	$(PYTHON_INTERPRETER) src/models/predict_model.py
 
 submit: ~/.kaggle/kaggle.json src/data/processed/submission.csv
@@ -86,8 +80,17 @@ submit: ~/.kaggle/kaggle.json src/data/processed/submission.csv
 	echo "All submissions:"
 	kaggle competitions submissions digit-recognizer
 
+grade: src/data/processed/submission.csv
+	$(PYTHON_INTERPRETER) test/test_project.py
+
 ~/.kaggle/kaggle.json:
 	@echo "Configuration error.  Please review the Kaggle setup instructions at https://github.com/Kaggle/kaggle-api#api-credentials"; exit 1;
+
+src/data/external/train.csv: ~/.kaggle/kaggle.json
+	kaggle competitions download -c digit-recognizer -f train.csv -p src/data/external --force
+
+src/data/external/test.csv: ~/.kaggle/kaggle.json
+	kaggle competitions download -c digit-recognizer -f test.csv -p src/data/external --force
 
 src/models/model.h5: train
 
