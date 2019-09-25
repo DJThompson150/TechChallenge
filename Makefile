@@ -1,5 +1,5 @@
 
-.PHONY: clean data lint requirements git
+.PHONY: clean data lint git
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -22,7 +22,7 @@ endif
 ## Install Python Dependencies
 requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
-	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
+	$(PYTHON_INTERPRETER) -m pip -q install -r requirements.txt
 
 ## Delete all compiled Python files
 clean:
@@ -63,25 +63,42 @@ git:
 # PROJECT RULES                                                                 #
 #################################################################################
 
-train: requirements
-	kaggle competitions download -c digit-recognizer -f train.csv -p data/external --force
+download_data: src/data/external/train.csv src/data/external/test.csv
 
-test: requirements
-	kaggle competitions download -c digit-recognizer -f test.csv -p data/external  --force
+src/data/external/train.csv: ~/.kaggle/kaggle.json
+	kaggle competitions download -c digit-recognizer -f train.csv -p src/data/external --force
 
-features: train
+src/data/external/test.csv: ~/.kaggle/kaggle.json
+	kaggle competitions download -c digit-recognizer -f test.csv -p src/data/external --force
+
+features: src/data/external/train.csv src/data/external/test.csv:
 	$(PYTHON_INTERPRETER) src/features/build_features.py
 
-model: features
+train: src/data/processed/X_train.npy src/data/processed/y_train.npy 
 	$(PYTHON_INTERPRETER) src/models/train_model.py
 
-predict: model test
+predict: src/models/model.h5 src/data/external/test.csv
 	$(PYTHON_INTERPRETER) src/models/predict_model.py
 
-submit: predict
-	kaggle competitions submit digit-recognizer -f data/processed/submission.csv -m "Automated submission"
+submit: ~/.kaggle/kaggle.json src/data/processed/submission.csv
+	kaggle competitions submit digit-recognizer -f src/data/processed/submission.csv -m "Automated submission"
 	echo "All submissions:"
 	kaggle competitions submissions digit-recognizer
+
+~/.kaggle/kaggle.json:
+	@echo "Configuration error.  Please review the Kaggle setup instructions at https://github.com/Kaggle/kaggle-api#api-credentials"; exit 1;
+
+src/models/model.h5: train
+
+src/data/processed/submission.csv: predict
+
+src/data/processed/X_train.npy: features
+
+src/data/processed/X_test.npy: features
+
+src/data/processed/y_train.npy: features
+
+src/data/processed/y_test.npy: features
 
 #################################################################################
 # Self Documenting Commands                                                     #
