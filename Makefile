@@ -1,5 +1,5 @@
 
-.PHONY: clean data lint git
+.PHONY: clean lint git
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -23,6 +23,9 @@ endif
 requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
 	$(PYTHON_INTERPRETER) -m pip -q install -r requirements.txt
+
+## Make Dataset
+data: src/data/external/train.csv src/data/external/test.csv
 
 ## Delete all compiled Python files
 clean:
@@ -62,8 +65,6 @@ git:
 #################################################################################
 # PROJECT RULES                                                                 #
 #################################################################################
-
-download_data: src/data/external/train.csv src/data/external/test.csv
 
 src/data/external/train.csv: ~/.kaggle/kaggle.json
 	kaggle competitions download -c digit-recognizer -f train.csv -p src/data/external --force
