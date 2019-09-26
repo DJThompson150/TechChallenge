@@ -1,5 +1,5 @@
 
-.PHONY: clean lint git
+.PHONY: clean lint
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -58,10 +58,6 @@ endif
 test_environment:
 	$(PYTHON_INTERPRETER) test_environment.py
 
-## Setup git
-git:
-	@bash 'git_config.sh'
-
 #################################################################################
 # PROJECT RULES                                                                 #
 #################################################################################
@@ -101,8 +97,6 @@ src/data/processed/X_train.npy: features
 src/data/processed/X_test.npy: features
 
 src/data/processed/y_train.npy: features
-
-src/data/processed/y_test.npy: features
 
 #################################################################################
 # Self Documenting Commands                                                     #
